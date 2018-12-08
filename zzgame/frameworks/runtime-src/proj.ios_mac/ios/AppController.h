@@ -25,6 +25,8 @@
  ****************************************************************************/
 
 #import <UIKit/UIKit.h>
+#import "Reachability.h"
+#include "scripting/lua-bindings/manual/CCLuaEngine.h"
 
 @class RootViewController;
 

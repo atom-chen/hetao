@@ -1,0 +1,1 @@
+﻿require("kernel.consts.ConstCore")

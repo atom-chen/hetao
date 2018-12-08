@@ -42,6 +42,12 @@ using namespace cocos2d::experimental;
 using namespace CocosDenshion;
 #endif
 
+#include "scripting/lua-bindings/manual/LuaBasicConversions.h"
+
+#include "cocos2dx_extra.h"
+#include "luabinding/cocos2dx_extra_luabinding.h"
+#include "lua_extensions_more.h"
+
 USING_NS_CC;
 using namespace std;
 
@@ -92,6 +98,10 @@ bool AppDelegate::applicationDidFinishLaunching()
     lua_State* L = engine->getLuaStack()->getLuaState();
     lua_module_register(L);
 
+    luaopen_cocos2dx_extra_luabinding(L);
+    luaopen_lua_extensions_more(L);
+    
+    
     register_all_packages();
 
     LuaStack* stack = engine->getLuaStack();
@@ -106,7 +116,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 #endif
     FileUtils::getInstance()->addSearchPath("src");
     FileUtils::getInstance()->addSearchPath("res");
-    if (engine->executeScriptFile("main.lua"))
+    if (engine->executeScriptFile("laucher/main.lua"))
     {
         return false;
     }

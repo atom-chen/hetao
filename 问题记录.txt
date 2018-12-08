@@ -1,0 +1,6 @@
+Ios依赖框架
+SystemConfiguration.framework
+CoreTelephony.framework
+
+修改info.plist
+添加App Transport Security Settings [ Allow Arbitrary Loads ]

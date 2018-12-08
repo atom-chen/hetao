@@ -884,6 +884,8 @@ const std::string RichText::KEY_ANCHOR_TEXT_GLOW_COLOR("KEY_ANCHOR_TEXT_GLOW_COL
 RichText::RichText()
     : _formatTextDirty(true)
     , _leftSpaceWidth(0.0f)
+    , mRealWidth(0.0f)
+    , mRealHeight(0.0f)
 {
     _defaults[KEY_VERTICAL_SPACE] = 0.0f;
     _defaults[KEY_WRAP_MODE] = static_cast<int>(WrapMode::WRAP_PER_WORD);
@@ -1813,6 +1815,10 @@ void RichText::formatRenderers()
             nextPosY -= maxY;
             rowWidthPairs.emplace_back(&element, nextPosX);
         }
+        
+        mRealWidth = newContentSizeWidth;
+        mRealHeight = -nextPosY;
+        
         this->setContentSize(Size(newContentSizeWidth, -nextPosY));
         for ( auto& row : rowWidthPairs )
             doHorizontalAlignment(*row.first, row.second);
@@ -1844,7 +1850,9 @@ void RichText::formatRenderers()
         }
         _customSize.height = newContentSizeHeight;
 
+        mRealHeight = newContentSizeHeight;
         // align renders
+        float maxX = 0;
         float nextPosY = _customSize.height;
         for (size_t i=0, size = _elementRenders.size(); i<size; i++)
         {
@@ -1860,7 +1868,10 @@ void RichText::formatRenderers()
             }
             
             doHorizontalAlignment(row, nextPosX);
+            maxX = MAX(nextPosX, maxX);
         }
+        
+        mRealWidth = maxX;
     }
     
     _elementRenders.clear();

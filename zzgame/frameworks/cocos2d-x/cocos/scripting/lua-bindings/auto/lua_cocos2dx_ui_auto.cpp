@@ -26375,38 +26375,46 @@ int lua_cocos2dx_ui_Helper_seekActionWidgetByActionTag(lua_State* tolua_S)
 int lua_cocos2dx_ui_Helper_seekWidgetByName(lua_State* tolua_S)
 {
     int argc = 0;
-    bool ok  = true;
-
+    bool ok = true;
+    
 #if COCOS2D_DEBUG >= 1
     tolua_Error tolua_err;
 #endif
-
+    
 #if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"ccui.Helper",0,&tolua_err)) goto tolua_lerror;
+    if (!tolua_isusertable(tolua_S, 1, "ccui.Helper", 0, &tolua_err)) goto tolua_lerror;
 #endif
-
+    
     argc = lua_gettop(tolua_S) - 1;
-
+    
     if (argc == 2)
     {
-        cocos2d::ui::Widget* arg0;
+        cocos2d::ui::Widget *arg0;
+        cocos2d::Node *nodeArg0;
         std::string arg1;
-        ok &= luaval_to_object<cocos2d::ui::Widget>(tolua_S, 2, "ccui.Widget",&arg0, "ccui.Helper:seekWidgetByName");
-        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "ccui.Helper:seekWidgetByName");
-        if(!ok)
+        ok = luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node", &nodeArg0);
+        if (!ok) {
+            ok = luaval_to_object<cocos2d::ui::Widget>(tolua_S, 2, "ccui.Widget", &arg0);
+        }
+        else {
+            arg0 = static_cast<cocos2d::ui::Widget *>(nodeArg0);
+        }
+        
+        ok &= luaval_to_std_string(tolua_S, 3, &arg1, "ccui.Helper:seekWidgetByName");
+        if (!ok)
         {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_ui_Helper_seekWidgetByName'", nullptr);
+            tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_ui_Helper_seekWidgetByName'", nullptr);
             return 0;
         }
         cocos2d::ui::Widget* ret = cocos2d::ui::Helper::seekWidgetByName(arg0, arg1);
-        object_to_luaval<cocos2d::ui::Widget>(tolua_S, "ccui.Widget",(cocos2d::ui::Widget*)ret);
+        object_to_luaval<cocos2d::ui::Widget>(tolua_S, "ccui.Widget", (cocos2d::ui::Widget*)ret);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "ccui.Helper:seekWidgetByName",argc, 2);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "ccui.Helper:seekWidgetByName", argc, 2);
     return 0;
 #if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_ui_Helper_seekWidgetByName'.",&tolua_err);
+tolua_lerror:
+    tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_ui_Helper_seekWidgetByName'.", &tolua_err);
 #endif
     return 0;
 }
@@ -28845,6 +28853,139 @@ int lua_cocos2dx_ui_RichText_setAnchorTextGlow(lua_State* tolua_S)
 
     return 0;
 }
+int lua_cocos2dx_ui_RichText_removeAllElement(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::ui::RichText* cobj = nullptr;
+    bool ok = true;
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+    
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S, 1, "ccui.RichText", 0, &tolua_err)) goto tolua_lerror;
+#endif
+    cobj = (cocos2d::ui::RichText*)tolua_tousertype(tolua_S, 1, 0);
+#if COCOS2D_DEBUG >= 1
+    if (!cobj)
+    {
+        tolua_error(tolua_S, "invalid 'cobj' in function 'lua_cocos2dx_ui_RichText_removeElement'", nullptr);
+        return 0;
+    }
+#endif
+    argc = lua_gettop(tolua_S) - 1;
+    do {
+        if (argc == 0) {
+            cobj->removeAllElement();
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+    } while (0);
+    ok = true;
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "ccui.RichText:removeAllElement", argc, 1);
+    return 0;
+    
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+    tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_ui_RichText_removeElement'.", &tolua_err);
+#endif
+    
+    return 0;
+}
+int lua_cocos2dx_ui_RichText_getRealWidth(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::ui::RichText* cobj = nullptr;
+    bool ok = true;
+    
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+    
+    
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S, 1, "ccui.RichText", 0, &tolua_err)) goto tolua_lerror;
+#endif
+    
+    cobj = (cocos2d::ui::RichText*)tolua_tousertype(tolua_S, 1, 0);
+    
+#if COCOS2D_DEBUG >= 1
+    if (!cobj)
+    {
+        tolua_error(tolua_S, "invalid 'cobj' in function 'lua_cocos2dx_ui_RichText_getRealWidth'", nullptr);
+        return 0;
+    }
+#endif
+    
+    argc = lua_gettop(tolua_S) - 1;
+    if (argc == 0)
+    {
+        if (!ok)
+        {
+            tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_ui_RichText_getRealWidth'", nullptr);
+            return 0;
+        }
+        double ret = cobj->getRealWidth();
+        tolua_pushnumber(tolua_S, (lua_Number)ret);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "ccui.RichText:getRealWidth", argc, 0);
+    return 0;
+    
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+    tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_ui_RichText_getRealWidth'.", &tolua_err);
+#endif
+    
+    return 0;
+}
+int lua_cocos2dx_ui_RichText_getRealHeight(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::ui::RichText* cobj = nullptr;
+    bool ok = true;
+    
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+    
+    
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S, 1, "ccui.RichText", 0, &tolua_err)) goto tolua_lerror;
+#endif
+    
+    cobj = (cocos2d::ui::RichText*)tolua_tousertype(tolua_S, 1, 0);
+    
+#if COCOS2D_DEBUG >= 1
+    if (!cobj)
+    {
+        tolua_error(tolua_S, "invalid 'cobj' in function 'lua_cocos2dx_ui_RichText_getRealHeight'", nullptr);
+        return 0;
+    }
+#endif
+    
+    argc = lua_gettop(tolua_S) - 1;
+    if (argc == 0)
+    {
+        if (!ok)
+        {
+            tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_ui_RichText_getRealHeight'", nullptr);
+            return 0;
+        }
+        double ret = cobj->getRealHeight();
+        tolua_pushnumber(tolua_S, (lua_Number)ret);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "ccui.RichText:getRealHeight", argc, 0);
+    return 0;
+    
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+    tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_ui_RichText_getRealHeight'.", &tolua_err);
+#endif
+    
+    return 0;
+}
 int lua_cocos2dx_ui_RichText_getHorizontalAlignment(lua_State* tolua_S)
 {
     int argc = 0;
@@ -30675,6 +30816,9 @@ int lua_register_cocos2dx_ui_RichText(lua_State* tolua_S)
         tolua_function(tolua_S,"setAnchorFontColor",lua_cocos2dx_ui_RichText_setAnchorFontColor);
         tolua_function(tolua_S,"setFontFace",lua_cocos2dx_ui_RichText_setFontFace);
         tolua_function(tolua_S,"setAnchorTextGlow",lua_cocos2dx_ui_RichText_setAnchorTextGlow);
+        tolua_function(tolua_S, "removeAllElement", lua_cocos2dx_ui_RichText_removeAllElement);
+        tolua_function(tolua_S, "getRealWidth", lua_cocos2dx_ui_RichText_getRealWidth);
+        tolua_function(tolua_S, "getRealHeight", lua_cocos2dx_ui_RichText_getRealHeight);
         tolua_function(tolua_S,"getHorizontalAlignment",lua_cocos2dx_ui_RichText_getHorizontalAlignment);
         tolua_function(tolua_S,"setHorizontalAlignment",lua_cocos2dx_ui_RichText_setHorizontalAlignment);
         tolua_function(tolua_S,"setAnchorTextDel",lua_cocos2dx_ui_RichText_setAnchorTextDel);

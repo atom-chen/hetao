@@ -1,0 +1,7 @@
+require "app.arpg.proto.init"
+require "app.arpg.consts.init"
+require "app.arpg.common.init"
+require "app.arpg.utils.init"
+require "app.arpg.modules.init"
+require "app.arpg.games.init"
+require "app.arpg.Game"

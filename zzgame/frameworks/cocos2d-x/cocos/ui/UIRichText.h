@@ -479,6 +479,17 @@ public:
      * It's usually called internally.
      */
     void formatText();
+    
+    float getRealWidth() {
+        return mRealWidth;
+    }
+    float getRealHeight() {
+        return mRealHeight;
+    }
+    void removeAllElement() {
+        _richElements.clear();
+        _formatTextDirty = true;
+    }
 
     //override functions.
     virtual void ignoreContentAdaptWithSize(bool ignore) override;
@@ -572,6 +583,9 @@ protected:
 	void doHorizontalAlignment(const Vector<Node*>& row, float rowWidth);
 	float stripTrailingWhitespace(const Vector<Node*>& row);
 
+    float mRealWidth;
+    float mRealHeight;
+    
     bool _formatTextDirty;
     Vector<RichElement*> _richElements;
     std::vector<Vector<Node*>> _elementRenders;
