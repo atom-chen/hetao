@@ -13,7 +13,7 @@ function clsAgentReport:ctor(parent)
     -- 1 今天  2 昨天   3 本月    4 上月
     self.time = 1
     self.id = ClsAgentDataMgr.GetInstance():GetReportid()
-    self.TextField_2:setText(self.id)
+    self.TextField_2:setString(self.id)
 	--proto.req_agent_today_report({username = self.id})
     self:req_agent_today_report(ClsAgentDataMgr.GetInstance():GetAgentReportToday())
 end

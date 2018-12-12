@@ -149,7 +149,11 @@ function clsBetDetailsView:Reflesh()
         self.items[2]:getChildByName("number"):setString(self.data.bet_time) 
     elseif self.data.status == "4" then
         --待开奖
-        self.BtnUndo:setVisible(true)
+        if self.data.types and self.data.types == "dragon" then
+            self.BtnUndo:setVisible(false)
+        else
+            self.BtnUndo:setVisible(true)
+        end
         utils.RegClickEvent(self.BtnUndo,function()
             proto.req_bet_cancel_xiazhu({order_num = self.data.order_num},{gid = self.data.gid})
         end)

@@ -107,6 +107,10 @@ function on_req_user_set_favorite(recvdata, tArgs)
 end
 
 function on_req_user_bet_record_get_list(recvdata)
+    local data = ClsBetHistoryMgr.GetInstance():GetDragonBet()
+    if not data then
+        ClsBetHistoryMgr.GetInstance():SaveDragonBet(recvdata.data)
+    end
     ClsBetHistoryMgr.GetInstance():SaveBetHistory(recvdata.data)
 end
 
@@ -125,6 +129,5 @@ end
 function on_req_refresh_token(recvdata)
     if recvdata and recvdata.data then
         HttpUtil.token = recvdata.data.token
-		ClsLoginMgr.GetInstance():Set_token_private_key(recvdata.data.token)
 	end
 end

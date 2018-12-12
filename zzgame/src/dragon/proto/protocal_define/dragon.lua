@@ -82,5 +82,31 @@ return{
 		respType = "XMLHTTPREQUEST_RESPONSE_STRING",
 		params = {}
     },
-
+    {
+        desc = "返回服务器期号",
+		name = "req_home_kithe_plan",
+		reqType = "GET",
+	--	domain = "",
+		addr = "home/kithe_plan",
+		respType = "XMLHTTPREQUEST_RESPONSE_STRING",
+		params = {}      
+    },
+    {
+        desc = "返回服务器时间戳",
+		name = "req_home_now_stamp",
+		reqType = "GET",
+	--	domain = "",
+		addr = "home/now_stamp",
+		respType = "XMLHTTPREQUEST_RESPONSE_STRING",
+		params = {}      
+    },
+    {
+        desc = "所有倒计时",
+		name = "req_home_game_plan",
+		reqType = "GET",
+	--	domain = "",
+		addr = "home/game_plan",
+		respType = "XMLHTTPREQUEST_RESPONSE_STRING",
+		params = {}      
+    },
 }

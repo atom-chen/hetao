@@ -7,6 +7,7 @@ function clsBaseUI:ctor(parent, sCfgFile, bSkipFontAdapt)
 	self:EnableNodeEvents()
 	clsCoreObject.ctor(self)
 	if parent then KE_SetParent(self, parent) end
+
 	if sCfgFile then 
 		local rootlayer = utils.LoadCsb(sCfgFile)
 		self:addChild(rootlayer)
@@ -55,21 +56,20 @@ function clsBaseUI:SetModal(bModal, bShowMask, bCloseWhenClickMask, sMaskPath)
 	assert(bModal==true or bModal==false)
 	assert(bShowMask==true or bShowMask==false)
 	self.bCloseWhenClickMask = bCloseWhenClickMask
+	self._bModal = bModal
+	self.bShowMask = bShowMask
 	
-	-- 阻挡
+	-- 创建阻挡
 	if self.mBlockLayer then
 		self.mBlockLayer:setVisible(bModal)
 	elseif bModal then
-		self.mBlockLayer = cc.Layer:create()
-		self:addChild(self.mBlockLayer, -1)
-		
-		local function onToucheBegan(touch, event)
-			return utils.IsNodeRealyVisible(self.mBlockLayer)
-		end
-		local function onToucheMoved(touch, event) 
-			
-		end
-		local function onToucheEnded(touch, event) 
+		local btnmask = ccui.Layout:create()
+		self.mBlockLayer = btnmask
+		btnmask:setContentSize(GAME_CONFIG.DESIGN_W+20, GAME_CONFIG.DESIGN_H*20)
+		btnmask:setAnchorPoint({ x = 0, y = 0 })
+		btnmask:setTouchEnabled(true)
+		btnmask:addTouchEventListener( function(sender, touchType)
+			if touchType ~= 2 then return end
 			if self.OnClickBlock then 
 				self.OnClickBlock() 
 			else
@@ -77,17 +77,11 @@ function clsBaseUI:SetModal(bModal, bShowMask, bCloseWhenClickMask, sMaskPath)
 					self:removeSelf()
 				end
 			end
-		end
-		local listener = cc.EventListenerTouchOneByOne:create()
-		listener:registerScriptHandler(onToucheBegan, cc.Handler.EVENT_TOUCH_BEGAN)
-		listener:registerScriptHandler(onToucheMoved, cc.Handler.EVENT_TOUCH_MOVED)
-		listener:registerScriptHandler(onToucheEnded, cc.Handler.EVENT_TOUCH_ENDED)
-		self.mBlockLayer:getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, self.mBlockLayer)
-		listener:setSwallowTouches(true)
+		end )
+		self:addChild(btnmask,-1)
 	end
-	
-	-- 遮罩
-	self.bShowMask = bShowMask
+
+	-- 创建遮罩
 	if self.mMaskSpr then
 		self.mMaskSpr:setVisible(bShowMask)
 	elseif bShowMask then
@@ -96,6 +90,7 @@ function clsBaseUI:SetModal(bModal, bShowMask, bCloseWhenClickMask, sMaskPath)
 		self.mBlockLayer:addChild(self.mMaskSpr)
 	end
 	
+	-- 调整遮罩位置
 	self:_FixMaskPos()
 end
 

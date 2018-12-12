@@ -561,7 +561,7 @@ function clsGameK3View:OnSelectBallChanged()
 	self._billPaper:SetCost(self:GetCost())
 	local betCount, totalCost = self._billPaper:GetTotalInfo(self._gameObj)
 	self.lblBetInfo:setString( "共"..betCount.."注"..totalCost.."元" )
-	self.Text_1:setText(self._billPaper:compute(self:GetCost(),self._gameObj))
+	self.Text_1:setString(self._billPaper:compute(self:GetCost(),self._gameObj))
     self.Text_1_0:setPositionX(self.Text_1:getPositionX()+self.Text_1:getContentSize().width)
 	--
 	if not self._btnFeatureList then return end

@@ -51,6 +51,22 @@ using namespace CocosDenshion;
 USING_NS_CC;
 using namespace std;
 
+//-----------------------------------------
+static int tolua_Cocos2d_Function_loadChunksFromZIP(lua_State* tolua_S)
+{
+    return LuaEngine::getInstance()->getLuaStack()->luaLoadChunksFromZIP(tolua_S);
+}
+
+void extendFunctions(lua_State* tolua_S)
+{
+    tolua_module(tolua_S, "cc", 0);
+    tolua_beginmodule(tolua_S, "cc");
+    tolua_function(tolua_S, "LuaLoadChunksFromZIP", tolua_Cocos2d_Function_loadChunksFromZIP);
+    tolua_endmodule(tolua_S);
+}
+
+//-----------------------------------------
+
 AppDelegate::AppDelegate()
 {
 }
@@ -95,30 +111,33 @@ bool AppDelegate::applicationDidFinishLaunching()
     // register lua module
     auto engine = LuaEngine::getInstance();
     ScriptEngineManager::getInstance()->setScriptEngine(engine);
-    lua_State* L = engine->getLuaStack()->getLuaState();
+    LuaStack* stack = engine->getLuaStack();
+    lua_State* L = stack->getLuaState();
+    
     lua_module_register(L);
-
     luaopen_cocos2dx_extra_luabinding(L);
     luaopen_lua_extensions_more(L);
-    
-    
+    extendFunctions(L);
     register_all_packages();
 
-    LuaStack* stack = engine->getLuaStack();
-    stack->setXXTEAKeyAndSign("2dxLua", strlen("2dxLua"), "XXTEA", strlen("XXTEA"));
-
-    //register custom function
-    //LuaStack* stack = engine->getLuaStack();
-    //register_custom_function(stack->getLuaState());
+    std::string updateDir = UserDefault::getInstance()->getStringForKey("update_dir", "");
+    if (!updateDir.empty()) {
+        //if is already the highest engine, should remove the hotupdate dir.
+        FileUtils::getInstance()->addSearchPath(updateDir, true);
+    }
     
-#if CC_64BITS
-    FileUtils::getInstance()->addSearchPath("src/64bit");
-#endif
-    FileUtils::getInstance()->addSearchPath("src");
-    FileUtils::getInstance()->addSearchPath("res");
-    if (engine->executeScriptFile("laucher/main.lua"))
-    {
-        return false;
+    std::string k = "xianyou0522";
+    std::string s = "xxtea";
+    FileUtils::getInstance()->setXXTEAKeyAndSign(k, s);
+    
+    if (FileUtils::getInstance()->isFileExist("res/laucher.zip")){
+        stack->setXXTEAKeyAndSign(k.c_str(), k.size(), s.c_str(), s.size());
+        stack->loadChunksFromZIP("res/laucher.zip");
+        stack->executeString("require 'laucher.main_zip'");
+    }
+    else{
+        // use discrete files
+        engine->executeScriptFile("src/laucher/main.lua");
     }
 
     return true;

@@ -853,9 +853,9 @@ function clsGameLhcView:OnSelectBallChanged()
 	local betCount, totalCost = self._billPaper:GetTotalInfo(self._gameObj)
 	self.lblBetInfo:setString( "共"..betCount.."注"..totalCost.."元" )
     if betCount > 0 then
-        self.Text_4_0:setText(self._billPaper:compute(self:GetCost(),self._gameObj))
+        self.Text_4_0:setString(self._billPaper:compute(self:GetCost(),self._gameObj))
     else
-        self.Text_4_0:setText(0)
+        self.Text_4_0:setString(0)
     end
     self.Text_4_1:setPositionX(self.Text_4_0:getPositionX()+self.Text_4_0:getContentSize().width)
     if betCount > 0 then

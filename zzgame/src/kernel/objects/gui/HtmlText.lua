@@ -30,7 +30,7 @@ function HtmlText:setString(_content)
 	_content = _content or ""
     _content = string.gsub(_content, "\n", "")
     self:removeAllElement()
-    local tbHtml = html.parsestr(_content)
+	local tbHtml = html.parsestr(_content)
     self:parseTag(tbHtml)
     self:formatText()
 end
@@ -52,6 +52,8 @@ function HtmlText:parseTag(tag, _attr)
 				self:parseTag(tag[i], tag["_attr"])
 			end
 		elseif curTag == "p" then
+			local element = ccui.RichElementNewLine:create(1, self.defaultColor, 255)
+			self:pushBackElement(element)
 			for i = 1, #tag do
 				self:parseTag(tag[i], tag["_attr"])
 			end

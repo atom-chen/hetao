@@ -81,3 +81,4 @@ iOSInjectionProject/
 /build
 /Debug.win32
 /zzgame/runtime
+/zzgame/pack_res_ios

@@ -1815,10 +1815,8 @@ void RichText::formatRenderers()
             nextPosY -= maxY;
             rowWidthPairs.emplace_back(&element, nextPosX);
         }
-        
         mRealWidth = newContentSizeWidth;
         mRealHeight = -nextPosY;
-        
         this->setContentSize(Size(newContentSizeWidth, -nextPosY));
         for ( auto& row : rowWidthPairs )
             doHorizontalAlignment(*row.first, row.second);
@@ -1848,11 +1846,12 @@ void RichText::formatRenderers()
             // vertical space except for first line
             newContentSizeHeight += (i != 0 ? maxHeight + verticalSpace : maxHeight);
         }
-        _customSize.height = newContentSizeHeight;
-
+        
         mRealHeight = newContentSizeHeight;
-        // align renders
+        _customSize.height = mRealHeight;
         float maxX = 0;
+
+        // align renders
         float nextPosY = _customSize.height;
         for (size_t i=0, size = _elementRenders.size(); i<size; i++)
         {
@@ -1870,7 +1869,6 @@ void RichText::formatRenderers()
             doHorizontalAlignment(row, nextPosX);
             maxX = MAX(nextPosX, maxX);
         }
-        
         mRealWidth = maxX;
     }
     

@@ -227,11 +227,11 @@ end
 ------------------------------------------------
 
 function ClsLoginMgr:StartRefreshToken(interval)
-	interval = interval or 60
-    self:DestroyTimer("tmrtoken")
-    self:CreateAbsTimerLoop("tmrtoken", interval, function()
-		proto.req_refresh_token()
-    end)
+--	interval = interval or 60
+--	self:DestroyTimer("tmrtoken")
+--	self:CreateAbsTimerLoop("tmrtoken", interval, function()
+--		proto.req_refresh_token()
+--	end)
 end
 function ClsLoginMgr:StopRefreshToken()
     self:DestroyTimer("tmrtoken")

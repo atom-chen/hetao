@@ -10,8 +10,12 @@ function clsDragonRankView:ctor(parent)
     clsBaseUI.ctor(self,parent,"hddt/DragonRank.csb")
     self:adaptor()
     proto.req_home_yesterday_win()
-    g_EventMgr:AddListener(self,"on_req_home_yesterday_win",self.on_req_home_yesterday_win,self)
     self:InitUiEvent()
+    self:InitGlbEvents()
+end
+
+function clsDragonRankView:InitGlbEvents()
+    g_EventMgr:AddListener(self,"on_req_home_yesterday_win",self.on_req_home_yesterday_win,self)
 end
 
 function clsDragonRankView:InitUiEvent()

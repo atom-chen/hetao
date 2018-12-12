@@ -73,7 +73,16 @@ local SITE_CFG = {
 		ENGINE_BUILD_TYPE = 2,
 		SERVER_URL = "https://www.wpub1dkjflsdakjfsdkgdfjsdfj.com",
 		HTTP_HEAD_KEY = "AuthGC",
-		HTTP_HEAD_VAL_1 = "yicai.tw",
+		HTTP_HEAD_VAL_1 = "w02",
+		Y_OFFSET = 0,
+	},
+	--长龙测试
+    dragon = {
+		hotdir = "dragon",
+		ENGINE_BUILD_TYPE = 2,
+		SERVER_URL = "http://hddtw01userapi.aikfj.com",
+		HTTP_HEAD_KEY = "AuthGC",
+		HTTP_HEAD_VAL_1 = "w01",
 		Y_OFFSET = 0,
 	},
 	
@@ -266,18 +275,9 @@ local SITE_CFG = {
 		HTTP_HEAD_VAL_1 = "w71",
 		Y_OFFSET = 0,
 	},
-	--长龙测试
-    dragon = {
-		hotdir = "dragon",
-		ENGINE_BUILD_TYPE = 2,
-		SERVER_URL = "http://hddtw01userapi.aikfj.com",
-		HTTP_HEAD_KEY = "AuthGC",
-		HTTP_HEAD_VAL_1 = "w01",
-		Y_OFFSET = 0,
-	},
 }
 
-CUR_SITE_NAME = "w71"	--当前站点
+CUR_SITE_NAME = "testor"	--当前站点
 CUR_SITE_CFG = SITE_CFG[CUR_SITE_NAME]
 
 ENGINE_BUILD_TYPE = CUR_SITE_CFG.ENGINE_BUILD_TYPE

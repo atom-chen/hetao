@@ -163,6 +163,11 @@ public:
      *  Purges full path caches.
      */
     virtual void purgeCachedEntries();
+    
+    void setXXTEAKeyAndSign(std::string key, std::string sign) {
+        _xxteaKey = key;
+        _xxteaSign = sign;
+    }
 
     /**
      *  Gets string from a file.
@@ -945,6 +950,10 @@ protected:
      *  This variable is used for improving the performance of file search.
      */
     mutable std::unordered_map<std::string, std::string> _fullPathCache;
+    
+    //
+    std::string _xxteaKey;
+    std::string _xxteaSign;
 
     /**
      * Writable path.

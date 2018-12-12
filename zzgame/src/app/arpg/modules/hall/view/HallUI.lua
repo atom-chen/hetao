@@ -81,7 +81,7 @@ function clsHallUI:on_req_home_homedata(recvdata)
         PAGE_CFG[4].Desc = "活动大厅"
         PAGE_CFG[4].Title = "活动大厅"
         PAGE_CFG[4].ViewClass = nil
-        self.Text_5:setText("活动大厅")
+        self.Text_5:setString("活动大厅")
     end
 --	PlatformHelper.openURL(logo)
 end

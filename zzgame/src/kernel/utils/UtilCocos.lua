@@ -277,3 +277,8 @@ function AddShakeEvent(LayerShake, OnShakeBegin, OnShakeEnd, OnShaking)
     ]]
 end
  
+function GetBoundSize(lbl)
+	local sz = lbl:getContentSize()
+	local scale = lbl:getScale()
+	return cc.size(sz.width*scale, sz.height*scale)
+end

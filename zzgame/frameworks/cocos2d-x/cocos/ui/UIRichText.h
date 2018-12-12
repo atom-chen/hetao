@@ -583,14 +583,14 @@ protected:
 	void doHorizontalAlignment(const Vector<Node*>& row, float rowWidth);
 	float stripTrailingWhitespace(const Vector<Node*>& row);
 
-    float mRealWidth;
-    float mRealHeight;
-    
     bool _formatTextDirty;
     Vector<RichElement*> _richElements;
     std::vector<Vector<Node*>> _elementRenders;
     std::vector<float> _lineHeights;
     float _leftSpaceWidth;
+    
+    float mRealWidth;
+    float mRealHeight;
 
     ValueMap _defaults;             /*!< default values */
     OpenUrlHandler _handleOpenUrl;  /*!< the callback for open URL */

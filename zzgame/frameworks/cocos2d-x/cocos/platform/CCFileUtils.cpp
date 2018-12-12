@@ -34,6 +34,7 @@ THE SOFTWARE.
 #include "platform/CCSAXParser.h"
 //#include "base/ccUtils.h"
 
+#include "xxtea/xxtea.h"
 #include "tinyxml2/tinyxml2.h"
 #ifdef MINIZIP_FROM_SYSTEM
 #include <minizip/unzip.h>
@@ -552,7 +553,9 @@ void FileUtils::setDelegate(FileUtils *delegate)
 }
 
 FileUtils::FileUtils()
-    : _writablePath("")
+    : _writablePath(""),
+    _xxteaKey(""),
+    _xxteaSign("")
 {
 }
 
@@ -626,6 +629,29 @@ std::string FileUtils::getStringFromFile(const std::string& filename)
 {
     std::string s;
     getContents(filename, &s);
+    
+    // decrypt XXTEA
+    if (_xxteaKey.length() > 0 && _xxteaSign.length() > 0 && s.length() > 0) {
+        bool isXXTEA = true;
+        unsigned char *buf = (unsigned char*)s.c_str();
+        ssize_t size = s.length();
+        for (int i = 0; isXXTEA && i < _xxteaSign.length() && i < size; ++i) {
+            isXXTEA = buf[i] == _xxteaSign[i];
+        }
+        
+        if (isXXTEA) {
+            xxtea_long len = 0;
+            unsigned char* buffer = xxtea_decrypt(
+                                                  buf + _xxteaSign.length(),
+                                                  (xxtea_long)size - (xxtea_long)_xxteaSign.length(),
+                                                  (unsigned char*)_xxteaKey.c_str(),
+                                                  (xxtea_long)_xxteaKey.length(),
+                                                  &len);
+            s.clear();
+            s.append((const char*)buffer, len);
+        }
+    }
+    
     return s;
 }
 
@@ -643,6 +669,29 @@ Data FileUtils::getDataFromFile(const std::string& filename)
 {
     Data d;
     getContents(filename, &d);
+    
+    // decrypt XXTEA
+    if (_xxteaKey.length() > 0 && _xxteaSign.length() > 0 && !d.isNull()) {
+        bool isXXTEA = true;
+        unsigned char *buf = d.getBytes();
+        ssize_t size = d.getSize();
+        for (int i = 0; isXXTEA && i < _xxteaSign.length() && i < size; ++i) {
+            isXXTEA = buf[i] == _xxteaSign[i];
+        }
+        
+        if (isXXTEA) {
+            xxtea_long len = 0;
+            unsigned char* buffer = xxtea_decrypt(
+                                                  buf + _xxteaSign.length(),
+                                                  (xxtea_long)size - (xxtea_long)_xxteaSign.length(),
+                                                  (unsigned char*)_xxteaKey.c_str(),
+                                                  (xxtea_long)_xxteaKey.length(),
+                                                  &len);
+            d.clear();
+            d.fastSet(buffer, len);
+        }
+    }
+    
     return d;
 }
 

@@ -35,10 +35,26 @@ function on_req_dragon_plays(recvdata)
 end
 
 function on_req_dragon_data(recvdata)
-
+    local data = recvdata and recvdata.data
+    ClsChatMgr.GetInstance():SaveBetData(data)
 end
 
 function on_req_home_yesterday_win(recvdata)
     local data = recvdata and recvdata.data
     ClsChatMgr.GetInstance():SaveYesterWin(data)
+end
+
+function on_req_home_now_stamp(recvdata)
+    print("-------------------------------------站点时间")
+    dump(recvdata)
+end
+
+function on_req_home_game_plan(recvdata)
+    print("-----------------------------------所有倒计时")
+    dump(recvdata)
+end
+
+function on_req_home_kithe_plan(recvdata)
+    print("----------------------------------------期号")
+    dump(recvdata)
 end

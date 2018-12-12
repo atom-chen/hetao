@@ -6,6 +6,7 @@ function ClsBetHistoryMgr:ctor()
     self.page = ""
     self.tBetHistory = {}
     self.tBetDetails = {}
+    self.tDragonBet = false
 end
 
 function ClsBetHistoryMgr:SaveBetHistory(data)
@@ -33,4 +34,12 @@ end
 
 function ClsBetHistoryMgr:GetPage()
     return self.page
+end
+
+function ClsBetHistoryMgr:SaveDragonBet(data)
+    self.tDragonBet = data
+end
+
+function ClsBetHistoryMgr:GetDragonBet()
+    return self.tDragonBet
 end

@@ -27,9 +27,21 @@ function ClsChatMgr:GetChatRecord()
     return self.ChatRecord
 end
 
+function ClsChatMgr:GetChatData(id)
+    return self.ChatRecord[id]
+end
+
+function ClsChatMgr:AddChatRecord(data)
+    table.insert( self.ChatRecord, data )
+    return #self.ChatRecord
+end
+
+function ClsChatMgr:GetChatRecordCnt()
+    return #self.ChatRecord
+end
+
 function ClsChatMgr:SaveBetData(recvdata)
-    local data = recvdata
-    self.BetData = data
+    self.BetData = recvdata
 end
 
 function ClsChatMgr:GetBetData()

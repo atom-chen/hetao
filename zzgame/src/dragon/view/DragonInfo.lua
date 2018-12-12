@@ -7,6 +7,7 @@ clsDragonInfoView = class("clsDragonInfoView",clsBaseUI)
 
 function clsDragonInfoView:ctor(parent)
     clsBaseUI.ctor(self,parent,"hddt/DragonInfo.csb")
+    self.AreaAuto:forceDoLayout()
     self:InitUiEvent()
 end 
 

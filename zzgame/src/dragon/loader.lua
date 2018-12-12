@@ -7,6 +7,7 @@ loader.filelist = {
     "dragon.model.GlobalEvents",
     "dragon.model.DragonMgr",
     "dragon.model.ChatMgr",
+    "dragon.model.WSHelper",
 
     "dragon.proto.proto_register",
     "dragon.proto.protocal_define.dragon",
